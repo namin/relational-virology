@@ -1,4 +1,4 @@
 Relational Virology
 ===================
 
-Beyond quines, develop host/virus lifecycles.
+Synthesis of simple virus-like programs via relational interpreter
