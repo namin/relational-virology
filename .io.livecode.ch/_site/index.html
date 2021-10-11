@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Quine: Self-Reproduction</h2>
 
-<p>\([[Q]] = Q\)</p>
+<p>[[Q]] = Q</p>
 <div class="live" id="quine">
 (run 1 (q)
   (evalo q q))
@@ -14,9 +14,9 @@
 <h2>Backdoored Self-Reproduction</h2>
 
 <ul>
-  <li>\([[(Q-fun X)]] = (Q-fun X)\) // for all X but a few</li>
-  <li>\([[(Q-fun 'backdoor)]] = (Q-fun' a)\) // changing Q-fun instead of reproducing it</li>
-  <li>\([[(Q-fun' X)]] = (Q-fun' b)\) // Q-fun' perpetuates, behavior to be decided flexibly</li>
+  <li>[[(Q-fun X)]] = (Q-fun X) // for all X but a few</li>
+  <li>[[(Q-fun 'backdoor)]] = (Q-fun' a) // changing Q-fun instead of reproducing it</li>
+  <li>[[(Q-fun' X)]] = (Q-fun' b) // Q-fun' perpetuates, behavior to be decided flexibly</li>
 </ul>
 
 <div class="live" id="b0">
