@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-#cat .io.livecode.ch/header.txt $1 .io.livecode.ch/footer.txt >out.scm
-cat $1 >out.scm
+cat .io.livecode.ch/header.txt $1 .io.livecode.ch/footer.txt >out.scm
 if [ -s $2 ]
 then
     mv $2 extra.scm
@@ -11,5 +10,4 @@ else
 fi
 cat load.scm extra.scm out.scm >script.scm
 
-#scheme --script script.scm
-scheme script.scm
+scheme --script script.scm
