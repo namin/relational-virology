@@ -8,6 +8,6 @@ then
 else
     touch extra.scm
 fi
-cat extra.scm out.scm >script.scm
+cat load.scm extra.scm out.scm >script.scm
 
-scheme load.scm --script script.scm
+scheme --script script.scm
