@@ -1,0 +1,168 @@
+{% extends "base_livecode.html" %}
+
+{% block title %}Relational Virology{% endblock %}
+
+{% block content %}
+<h2>Quine: Self-Reproduction</h2>
+
+<p>\([[Q]] = Q\)</p>
+<div class="live" id="quine">
+(run 1 (q)
+  (evalo q q))
+</div>
+
+<h2>Backdoored Self-Reproduction</h2>
+
+<ul>
+  <li>\([[(Q-fun X)]] = (Q-fun X)\) // for all X but a few</li>
+  <li>\([[(Q-fun 'backdoor)]] = (Q-fun' a)\) // changing Q-fun instead of reproducing it</li>
+  <li>\([[(Q-fun' X)]] = (Q-fun' b)\) // Q-fun' perpetuates, behavior to be decided flexibly</li>
+</ul>
+
+<div class="live" id="b0">
+(run 1 (q-fun)
+  (absento 'x q-fun)
+  (fresh (e)
+    (== q-fun `(lambda (arg) ,e)))
+  (evalo `(,q-fun 'x) `(,q-fun x)))
+</div>
+
+<div class="live" id="b1">
+(run 1 (q-fun)
+  (absento 'x q-fun)
+  (fresh (e)
+    (== q-fun `(lambda (arg) ((lambda (in) ,e) ',e))))
+  (evalo `(,q-fun 'x) `(,q-fun x)))
+</div>
+
+<div class="live" id="b2">
+(run 1 (q-fun)
+  (absento 'x q-fun)
+  (fresh (e good evil)
+    (== e `(if (equal? arg 'backdoor) ,evil ,good))
+    (== q-fun `(lambda (arg) ((lambda (in) ,e) ',e))))
+  (evalo `(,q-fun 'x) `(,q-fun x)))
+</div>
+
+<div class="live" id="b3">
+(run 1 (q-fun q-fun^)
+  (absento 'x q-fun)
+  (fresh (e good evil)
+    (== e `(if (equal? arg 'backdoor) ,evil ,good))
+    (== q-fun `(lambda (arg) ((lambda (in) ,e) ',e))))
+  (evalo `(,q-fun 'x) `(,q-fun x))
+  (evalo `(,q-fun 'backdoor) `(,q-fun^ a)))
+</div>
+
+<p>This is it!</p>
+<div class="live" id="b">
+(run 1 (q-fun q-fun^)
+  (absento 'x q-fun)
+  (fresh (e good evil)
+    (== e `(if (equal? arg 'backdoor) ,evil ,good))
+    (== q-fun `(lambda (arg) ((lambda (in) ,e) ',e))))
+  (evalo `(,q-fun 'x) `(,q-fun x))
+  (evalo `(,q-fun 'backdoor) `(,q-fun^ a))
+  (evalo `(,q-fun^ 'x) `(,q-fun^ b)))
+</div>
+
+<h2>The Axioms of Virus Life</h2>
+<ul>
+  <li>The host can reproduce itself.</li>
+  <li>Virus cannot reproduce itself without a host.</li>
+  <li>There are uninfected hosts, and infected hosts.</li>
+  <li>Uninfected hosts just reproduce themselves as normally.</li>
+  <li>Infected hosts
+    <ul>
+      <li>in state 1, the virus reproduces itself, and the host goes away;
+      </li>
+      <li>in state 2, the virus integrates itself into the genome, then the host reproduces and you get multiple infected hosts and they behave normally until a triggering state, then like state 1.
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ul>
+<li>Q</li>
+<li>V</li>
+<li>[[Q x]]=Q x</li>
+<li>in state 1: [[Q V]]=V</li>
+<li>in state 2: [[Q V]]=QV and [[QV x]]=QV x</li>
+<li>transition: [[QV x]]=V</li>
+</ul>
+
+<div class="live" id="a0">
+(run 1 (Q)
+  (absento 'x Q)
+  (evalo `(,Q 'x) `(,Q 'x)))
+</div>
+
+<p>in state 1: [[Q V]]=V</p>
+<div class="live" id="a1">
+(run 1 (Q V)
+  (absento 'x Q)
+  (absento 'x V)
+  (evalo `(,Q 'x) `(,Q 'x))
+  (evalo `(,Q ',V) `(quote ,V)))
+</div>
+
+<p>Backdoor trigger is #f!</p>
+
+<p>in state 2: [[Q V]]=QV (and [[QV x]]=QV x)</p>
+<div class="live" id="a2">
+(run 1 (Q V QV)
+  (absento 'x Q)
+  (absento 'x V)
+  (evalo `(,Q 'x) `(,Q 'x))
+  (evalo `(,Q ',V) `(quote ,QV)))
+</div>
+
+<p>in state 2: [[Q V]]=QV and [[QV x]]=QV x</p>
+<div class="live" id="a3">
+(run 1 (Q V QV)
+  (absento 'x Q)
+  (absento 'x V)
+  (evalo `(,Q 'x) `(,Q 'x))
+  (evalo `(,Q ',V) `(quote ,QV))
+  (evalo `(,QV 'x) `(,QV 'x)))
+</div>
+
+<h3>Lifecycle analogy</h3>
+<ul>
+<li>Q</li>
+<li>V</li>
+<li>[[Q x]]=Q x</li>
+<li>[[Q V]]=QV1</li>
+<li>[[QV1 x]]=QV2 x</li>
+<li>[[QV2 x]]=V</li>
+</ul>
+
+<div class="live" id="a">
+(run 1 (Q V QV1 QV2)
+  (absento 'x Q)
+  (absento 'x V)
+  (absento 'x QV1)
+  (absento 'x QV2)
+  (evalo `(,Q 'x) `(,Q 'x))
+  (evalo `(,Q ',V) `(quote ,QV1))
+  (evalo `(,QV1 'x) `(,QV2 'x))
+  (evalo `(,QV2 'x) `(quote ,V)))
+</div>
+
+<div class="live" id="ab">
+(run 1 (Q V QV1 QV2)
+  (absento 'x Q)
+  (absento 'x V)
+  (absento 'x QV1)
+  (absento 'x QV2)
+  (fresh (e1 e2 c)
+    (== c `(equal? z 'backdoor))
+    (== Q `((lambda (y) (lambda (z) (if ,c ,e1 ,e2)))
+            '(lambda (y) (lambda (z) (if ,c ,e1 ,e2))))))
+  (evalo `(,Q 'x) `(,Q 'x))
+  (evalo `(,Q ',V) `(quote ,QV1))
+  (evalo `(,QV1 'x) `(,QV2 'x))
+  (evalo `(,QV2 'x) `(quote ,V)))
+</div>
+
+{% endblock %}
