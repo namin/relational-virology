@@ -11,4 +11,5 @@ else
 fi
 cat load.scm extra.scm out.scm >script.scm
 
-scheme --script script.scm
+#scheme --script script.scm
+scheme script.scm
