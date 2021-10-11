@@ -1,8 +1,4 @@
-(load "faster-miniKanren/mk-vicare.scm")
-(load "faster-miniKanren/mk.scm")
-(load "faster-miniKanren/test-check.scm")
-(load "evalo.scm")
-(load "presento.scm")
+(load "load.scm")
 
 ;; [[Q]] = Q
 (run 1 (q)
